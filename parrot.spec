@@ -1,9 +1,9 @@
 %define name parrot
 %define release		%mkrel 1
-%define version 0.4.6
+%define version 0.4.13
 
 %define libname %mklibname %{name} %version
-%define libname_devel  %mklibname -d %{name} %version 
+%define libname_devel  %mklibname -d %{name} 
 
 Summary:    Virtual machine designed to compile and execute bytecode
 Name:		%name
@@ -35,6 +35,8 @@ Summary:    Devel files for %{name}
 Group:	    Development/Perl
 Provides:   lib%{name}-devel
 Requires:   %libname = %version
+Obsoletes:  %{libname}-devel
+
 %description -n %libname_devel
 Devel files for %{name}.
 
