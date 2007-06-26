@@ -57,6 +57,7 @@ rm -rf $RPM_BUILD_ROOT
 #%makeinstall_std
 make reallyinstall DESTDIR=$RPM_BUILD_ROOT
 rm -Rf $RPM_BUILD_ROOT/usr/share/doc/
+rm -fr $RPM_BUILD_ROOT/usr/{src, config, compilers}
 
 %check
 make test
