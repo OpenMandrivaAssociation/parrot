@@ -42,7 +42,7 @@ Devel files for %{name}.
 
 %prep
 %setup -q
-%patch0 -p0
+#%patch0 -p0
 
 %build
 perl Configure.pl --prefix=%_prefix 
@@ -54,7 +54,8 @@ make
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%makeinstall_std
+#%makeinstall_std
+make reallyinstall DESTDIR=$RPM_BUILD_ROOT
 rm -Rf $RPM_BUILD_ROOT/usr/share/doc/
 
 %check
