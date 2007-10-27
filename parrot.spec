@@ -1,17 +1,15 @@
 %define name parrot
-%define release		%mkrel 2
-%define version 0.4.13
+%define release		%mkrel 1
+%define version 0.4.17
 
 %define libname %mklibname %{name} %version
-%define old_libname %mklibname %{name} 0.4.6
 %define libname_devel  %mklibname -d %{name} 
 
 Summary:    Virtual machine designed to compile and execute bytecode
 Name:		%name
 Version:	%version
 Release:	%release
-Source0:	ftp://ftp.cpan.org/pub/CPAN/authors/id/L/LT/LTOETSCH/%{name}-%{version}.tar.bz2
-Patch0:      parrot-0.4.2-use_readline.patch
+Source0:	ftp://ftp.cpan.org/pub/CPAN/authors/id/L/LT/LTOETSCH/%{name}-%{version}.tar.gz
 License:	GPL
 Group:	    Development/Perl
 Url:		http://www.parrotcode.org/
@@ -30,6 +28,8 @@ Summary:    Run time library for %{name}
 Group:	    Development/Perl
 Obsoletes:  %{old_libname}
 Provides:   lib%{name} = %{version}-%{release}
+Obsoletes:  %mklibname %name 0.4.13
+Obsoletes:  %mklibname %name 0.4.6
 
 %description -n %libname
 Run time library for %{name}.
@@ -37,17 +37,16 @@ Run time library for %{name}.
 %package -n %libname_devel
 Summary:    Devel files for %{name}
 Group:	    Development/Perl
-Provides:   lib%{name}-devel
+Provides:   %{name}-devel = %version-%release
 Requires:   %libname = %version
-Obsoletes:  %{libname}-devel
-Obsoletes:  %{old_libname}-devel
+Obsoletes:  %mklibname -d %name 0.4.13
+Obsoletes:  %mklibname -d %name 0.4.6
 
 %description -n %libname_devel
 Devel files for %{name}.
 
 %prep
 %setup -q
-#%patch0 -p0
 
 %build
 perl Configure.pl --prefix=%_prefix 
@@ -85,7 +84,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n %libname 
 %defattr(-,root,root) 
-%_libdir/*.so.*
+%_libdir/*.so.%{version}*
 
 %files -n %libname_devel
 %defattr(-,root,root) 
@@ -93,4 +92,3 @@ rm -rf $RPM_BUILD_ROOT
 %_libdir/*.so
 %_libdir/*.a
 %_libdir/pkgconfig/%name.pc
-
