@@ -13,6 +13,7 @@ Source0:	ftp://ftp.cpan.org/pub/CPAN/authors/id/L/LT/LTOETSCH/%{name}-%{version}
 License:	GPL
 Group:	    Development/Perl
 Url:		http://www.parrotcode.org/
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires: libicu-devel python icu perl-devel perl-doc readline-devel
 BuildRequires: gmp-devel libaio-devel
 
