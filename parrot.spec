@@ -26,7 +26,6 @@ variety of other languages
 %package -n %libname
 Summary:    Run time library for %{name}
 Group:	    Development/Perl
-Obsoletes:  %{old_libname}
 Provides:   lib%{name} = %{version}-%{release}
 Obsoletes:  %mklibname %name 0.4.13
 Obsoletes:  %mklibname %name 0.4.6
