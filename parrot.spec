@@ -1,19 +1,19 @@
-%define name parrot
+%define name    parrot
 %define version 0.9.1
-%define release	%mkrel 1
+%define release %mkrel 1
 
 %define libname %mklibname %{name}
 %define libname_devel  %mklibname -d %{name} 
 
-Summary:    Parrot Virtual Machine
-Name:		%name
-Version:	%version
-Release:	%release
-Source0:    ftp://ftp.parrot.org/pub/parrot/releases/devel/%{name}-%{version}.tar.gz
-License:	Artistic 2.0
-Group:	    Development/Libraries
-Url:		http://www.parrot.org/
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
+Summary:       Parrot Virtual Machine
+Name:          %name
+Version:       %version
+Release:       %release
+Source0:       ftp://ftp.parrot.org/pub/parrot/releases/devel/%{name}-%{version}.tar.gz
+License:       Artistic 2.0
+Group:         Development/Libraries
+Url:           http://www.parrot.org/
+BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires: readline-devel
 BuildRequires: ncurses-devel
 BuildRequires: gmp-devel
@@ -34,8 +34,6 @@ Summary:    Parrot Virtual Machine run time library
 Provides:   lib%{name} = %{version}-%{release}
 Requires:       %{name} = %{version}-%{release}
 Requires:       %{_libdir}/pkgconfig
-Obsoletes:  %mklibname %name 0.4.13
-Obsoletes:  %mklibname %name 0.4.6
 
 %description -n %libname
 Run time library for %{name}.
@@ -54,8 +52,6 @@ Documentation for %{name}.
 Summary:    Parrot Virtual Machine development headers and libraries
 Provides:   %{name}-devel = %version-%release
 Requires:   %libname = %version
-Obsoletes:  %mklibname -d %name 0.4.13
-Obsoletes:  %mklibname -d %name 0.4.6
 
 %description -n %libname_devel
 Development files for %{name}.
