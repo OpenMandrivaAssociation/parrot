@@ -1,6 +1,6 @@
 %define name    parrot
 %define version 0.9.1
-%define release %mkrel 1
+%define release %mkrel 2
 
 %define libname %mklibname %{name}
 %define libname_devel  %mklibname -d %{name} 
@@ -9,7 +9,7 @@ Summary:       Parrot Virtual Machine
 Name:          %name
 Version:       %version
 Release:       %release
-Source0:       ftp://ftp.parrot.org/pub/parrot/releases/devel/%{name}-%{version}.tar.gz
+Source0:       ftp://ftp.parrot.org/pub/parrot/releases/devel/%{version}/%{name}-%{version}.tar.gz
 License:       Artistic 2.0
 Group:         Development/Perl
 Url:           http://www.parrot.org/
