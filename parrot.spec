@@ -11,7 +11,7 @@ Version:       %version
 Release:       %release
 Source0:       ftp://ftp.parrot.org/pub/parrot/releases/devel/%{name}-%{version}.tar.gz
 License:       Artistic 2.0
-Group:         Development/Libraries
+Group:         Development/Perl
 Url:           http://www.parrot.org/
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires: readline-devel
@@ -32,7 +32,7 @@ variety of other languages
 %package -n %libname
 Summary:    Parrot Virtual Machine run time library
 License:    Artistic 2.0
-Group:      Development/Libraries
+Group:      Development/Perl
 Provides:   lib%{name} = %{version}-%{release}
 Requires:       %{name} = %{version}-%{release}
 Requires:       %{_libdir}/pkgconfig
@@ -45,7 +45,7 @@ Run time library for %{name}.
 %package -n %{name}-doc
 Summary:    Parrot Virtual Machine documentation
 License:    Artistic 2.0
-Group:      Development/Libraries
+Group:      Development/Perl
 
 %description -n %{name}-doc
 Documentation for %{name}.
@@ -55,7 +55,7 @@ Documentation for %{name}.
 %package -n %libname_devel
 Summary:    Parrot Virtual Machine development headers and libraries
 License:    Artistic 2.0
-Group:      Development/Libraries
+Group:      Development/Perl
 Provides:   %{name}-devel = %version-%release
 Requires:   %libname = %version
 
