@@ -90,7 +90,6 @@ Development files for %{name}.
 
 make
 export LD_LIBRARY_PATH=$( pwd )/blib/lib
-make languages
 make parrot_utils
 make installable
 make html
