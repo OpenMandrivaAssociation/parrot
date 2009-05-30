@@ -1,8 +1,8 @@
 %define name    parrot
-%define version 1.0.0
+%define version 1.2.0
 %define release %mkrel 1
 
-%define libname %mklibname %{name}
+%define libname        %mklibname %{name}
 %define libname_devel  %mklibname -d %{name} 
 
 Summary:       Parrot Virtual Machine
