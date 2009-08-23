@@ -1,5 +1,5 @@
 %define name    parrot
-%define version 1.4.0
+%define version 1.5.0
 %define release %mkrel 1
 
 %define libname        %mklibname %{name}
@@ -157,7 +157,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/parrot_config
 %{_bindir}/parrot_debugger
 %{_bindir}/pbc_disassemble
-%{_bindir}/pbc_info
 %{_bindir}/pbc_merge
 %{_bindir}/pbc_to_exe
 %{_bindir}/pbc_dump
