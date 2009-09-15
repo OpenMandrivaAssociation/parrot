@@ -1,25 +1,28 @@
 %define name    parrot
-%define version 1.5.0
-%define release %mkrel 2
+%define version 1.6.0
+%define release %mkrel 1
 
 %define libname        %mklibname %{name}
 %define libname_devel  %mklibname -d %{name} 
 
-Summary:       Parrot Virtual Machine
 Name:          %name
 Version:       %version
 Release:       %release
-Source0:       ftp://ftp.parrot.org/pub/parrot/releases/devel/%{version}/%{name}-%{version}.tar.gz
+
+Summary:       Parrot Virtual Machine
 License:       Artistic 2.0
 Group:         Development/Perl
 Url:           http://www.parrot.org/
-BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-BuildRequires: readline-devel
-BuildRequires: ncurses-devel
-BuildRequires: gmp-devel
+Source0:       ftp://ftp.parrot.org/pub/parrot/releases/devel/%{version}/%{name}-%{version}.tar.gz
+
 BuildRequires: gdbm-devel
-BuildRequires: perl-doc
+BuildRequires: gmp-devel
 BuildRequires: libicu-devel
+BuildRequires: ncurses-devel
+BuildRequires: perl-doc
+BuildRequires: readline-devel
+
+BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}
 
 %description
 Parrot is a virtual machine designed to efficiently compile and execute 
@@ -34,8 +37,8 @@ Summary:    Parrot Virtual Machine run time library
 License:    Artistic 2.0
 Group:      Development/Perl
 Provides:   lib%{name} = %{version}-%{release}
-Requires:       %{name} = %{version}-%{release}
-Requires:       %{_libdir}/pkgconfig
+Requires:   %{name} = %{version}-%{release}
+Requires:   %{_libdir}/pkgconfig
 
 %description -n %libname
 Run time library for %{name}.
@@ -56,8 +59,8 @@ Documentation for %{name}.
 Summary:    Parrot Virtual Machine development headers and libraries
 License:    Artistic 2.0
 Group:      Development/Perl
-Provides:   %{name}-devel = %version-%release
-Requires:   %libname = %version
+Provides:   %{name}-devel = %{version}-%{release}
+Requires:   %libname = %{version}
 
 %description -n %libname_devel
 Development files for %{name}.
@@ -83,7 +86,7 @@ Development files for %{name}.
     --parrot_is_shared \
     --lex=/usr/bin/flex \
     --yacc=/usr/bin/yacc \
-    --libs='-lcurses -lm'
+    --libs='-lcurses -lm -lrt'
 
 # the following Configure.pl flag makes the compile goes boom
     #--optimize="$RPM_OPT_FLAGS -maccumulate-outgoing-args" \
