@@ -5,6 +5,8 @@
 %define libname        %mklibname %{name}
 %define libname_devel  %mklibname -d %{name} 
 
+%define _requires_exceptions perl(Parrot::Pmc2c::PMCEmitter)
+
 Name:          %name
 Version:       %version
 Release:       %release
