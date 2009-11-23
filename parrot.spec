@@ -1,11 +1,12 @@
 %define name    parrot
 %define version 1.8.0
-%define release %mkrel 2
+%define release %mkrel 3
 
 %define libname        %mklibname %{name}
 %define libname_devel  %mklibname -d %{name} 
 
 %define _requires_exceptions perl(Parrot::Pmc2c::PMCEmitter)
+%define _provides_exceptions perl(File::Which)
 
 Name:          %name
 Version:       %version
