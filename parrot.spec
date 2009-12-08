@@ -1,6 +1,6 @@
 %define name    parrot
 %define version 1.8.0
-%define release %mkrel 4
+%define release %mkrel 5
 
 %define libname        %mklibname %{name}
 %define libname_devel  %mklibname -d %{name} 
@@ -67,6 +67,18 @@ Requires:   %libname = %{version}
 
 %description -n %libname_devel
 Development files for %{name}.
+
+#--
+
+%package -n %{name}-src
+Summary:    Parrot Virtual Machine sources
+License:    Artistic 2.0
+Group:      Development/Perl
+Provides:   %{name}-src = %{version}-%{release}
+
+%description -n %{name}-src
+Sources of %{name}.
+
 
 %prep
 %setup -q
@@ -163,4 +175,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 %{_libdir}/*.so
 %{_libdir}/*.a
+
+%files -n %{name}-src
+%defattr(-,root,root,-)
 /usr/src/parrot
