@@ -1,6 +1,6 @@
 %define name    parrot
 %define version 1.8.0
-%define release %mkrel 3
+%define release %mkrel 4
 
 %define libname        %mklibname %{name}
 %define libname_devel  %mklibname -d %{name} 
@@ -118,13 +118,6 @@ find docs examples -type f -exec chmod 644 {} \;
 find $RPM_BUILD_ROOT%{_libdir} -type f \( -name '*.so' -o -name '*.so.*' \) \
     -exec chmod 755 {} \;
 
-# These files *probably* aren't needed.
-rm -rf $RPM_BUILD_ROOT%{_usr}/config \
-    $RPM_BUILD_ROOT%{_includedir}/src \
-    $RPM_BUILD_ROOT%{_usr}/src \
-    $RPM_BUILD_ROOT%{_usr}/tools
-
-
 %check
 export LD_LIBRARY_PATH=$( pwd )/blib/lib
 #make test
@@ -168,5 +161,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/pbc_dump
 %{_includedir}/*
 %{_libdir}/pkgconfig/*
-%_libdir/*.so
-%_libdir/*.a
+%{_libdir}/*.so
+%{_libdir}/*.a
+/usr/src/parrot
