@@ -1,5 +1,5 @@
 %define name    parrot
-%define version 2.2.0
+%define version 2.3.0
 %define release %mkrel 2
 
 %define libname        %mklibname %{name}
@@ -17,6 +17,7 @@ License:       Artistic 2.0
 Group:         Development/Perl
 Url:           http://www.parrot.org/
 Source0:       ftp://ftp.parrot.org/pub/parrot/releases/devel/%{version}/%{name}-%{version}.tar.gz
+Patch0:        parrot-2.3.0-remove_md2_upstream_r45824.patch
 
 BuildRequires: gdbm-devel
 BuildRequires: gmp-devel
@@ -82,7 +83,7 @@ Sources of %{name}.
 
 %prep
 %setup -q
-
+%patch0 -p1 -b .md2
 %{__perl} -pi -e 's,"lib/,"%{_lib}/, if (/CONST_STRING\(interp,/)' \
     src/library.c
 %{__perl} -pi -e "s,'/usr/lib','%{_libdir}',;s,runtime/lib/,runtime/%{_lib}/," \
@@ -97,20 +98,20 @@ Sources of %{name}.
     --infodir=%{_datadir}/info \
     --mandir=%{_mandir} \
     --cc="%{__cc}" \
-    --cxx=%{__cxx} \
     --parrot_is_shared \
     --lex=/usr/bin/flex \
     --yacc=/usr/bin/yacc \
     --libs='-lcurses -lm -lrt'
 
+    #--cxx=%{__cxx} \
 # the following Configure.pl flag makes the compile goes boom
     #--optimize="$RPM_OPT_FLAGS -maccumulate-outgoing-args" \
 
-make
+%make
 export LD_LIBRARY_PATH=$( pwd )/blib/lib
-make parrot_utils
-make installable
-make html
+%make parrot_utils
+%make installable
+%make html
 
 
 %install
