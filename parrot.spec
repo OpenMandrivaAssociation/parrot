@@ -1,6 +1,6 @@
 %define name    parrot
-%define version 2.3.0
-%define release %mkrel 2
+%define version 2.6.0
+%define release %mkrel 1
 
 %define libname        %mklibname %{name}
 %define libname_devel  %mklibname -d %{name} 
@@ -17,7 +17,6 @@ License:       Artistic 2.0
 Group:         Development/Perl
 Url:           http://www.parrot.org/
 Source0:       ftp://ftp.parrot.org/pub/parrot/releases/devel/%{version}/%{name}-%{version}.tar.gz
-Patch0:        parrot-2.3.0-remove_md2_upstream_r45824.patch
 
 BuildRequires: gdbm-devel
 BuildRequires: gmp-devel
@@ -83,7 +82,6 @@ Sources of %{name}.
 
 %prep
 %setup -q
-%patch0 -p1 -b .md2
 %{__perl} -pi -e 's,"lib/,"%{_lib}/, if (/CONST_STRING\(interp,/)' \
     src/library.c
 %{__perl} -pi -e "s,'/usr/lib','%{_libdir}',;s,runtime/lib/,runtime/%{_lib}/," \
