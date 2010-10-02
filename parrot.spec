@@ -1,5 +1,5 @@
 %define name    parrot
-%define version 2.7.0
+%define version 2.8.0
 %define release %mkrel 1
 
 %define libname        %mklibname %{name}
@@ -16,7 +16,7 @@ Summary:       Parrot Virtual Machine
 License:       Artistic 2.0
 Group:         Development/Perl
 Url:           http://www.parrot.org/
-Source0:       ftp://ftp.parrot.org/pub/parrot/releases/devel/%{version}/%{name}-%{version}.tar.gz
+Source0:       ftp://ftp.parrot.org/pub/parrot/releases/devel/%{version}/%{name}-%{version}.tar.bz2
 
 BuildRequires: gdbm-devel
 BuildRequires: gmp-devel
