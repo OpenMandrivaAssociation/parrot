@@ -17,7 +17,7 @@ License:       Artistic 2.0
 Group:         Development/Perl
 Url:           http://www.parrot.org/
 Source0:       ftp://ftp.parrot.org/pub/parrot/releases/devel/%{version}/%{name}-%{version}.tar.bz2
-
+Patch0:		parrot-2.11.0-link.patch
 BuildRequires: gdbm-devel
 BuildRequires: gmp-devel
 BuildRequires: libicu-devel
@@ -82,6 +82,7 @@ Sources of %{name}.
 
 %prep
 %setup -q
+%patch0 -p0
 %{__perl} -pi -e 's,"lib/,"%{_lib}/, if (/CONST_STRING\(interp,/)' \
     src/library.c
 %{__perl} -pi -e "s,'/usr/lib','%{_libdir}',;s,runtime/lib/,runtime/%{_lib}/," \
@@ -105,10 +106,10 @@ Sources of %{name}.
 # the following Configure.pl flag makes the compile goes boom
     #--optimize="$RPM_OPT_FLAGS -maccumulate-outgoing-args" \
 
-%make
+make LDFLAGS="%ldflags"
 export LD_LIBRARY_PATH=$( pwd )/blib/lib
-%make parrot_utils
-%make installable
+make parrot_utils LDFLAGS="%ldflags"
+make installable LDFLAGS="%ldflags"
 %make html
 
 
