@@ -27,10 +27,14 @@ BuildRequires: perl-doc
 BuildRequires: readline-devel
 
 %description
-Parrot is a virtual machine designed to efficiently compile and execute 
-bytecode for interpreted languages. Parrot will be the target for the final 
-Perl 6 compiler, and is already usable as a backend for the Rakudo Perl
-6 compiler, as well as a variety of other languages
+Parrot is a virtual machine designed
+to efficiently compile and execute 
+bytecode for interpreted languages.
+Parrot will be the target for the final 
+Perl 6 compiler, and is already usable
+as a backend for the Rakudo Perl
+6 compiler, as well as a variety of
+other languages
 
 #--
 
