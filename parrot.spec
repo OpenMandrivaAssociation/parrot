@@ -1,5 +1,5 @@
 %define name    parrot
-%define version 4.0.0
+%define version 4.6.0
 %define release 1
 
 %define libname        %mklibname %{name}
@@ -12,12 +12,11 @@ Name:          %name
 Version:       %version
 Release:       %release
 
-Summary:       Parrot Virtual Machine
+Summary:       Virtual Machine for dynamic languages
 License:       Artistic 2.0
 Group:         Development/Perl
 Url:           http://www.parrot.org/
 Source0:       ftp://ftp.parrot.org/pub/parrot/releases/stable/%{version}/%{name}-%{version}.tar.bz2
-Patch0:		parrot-3.4.0-link.patch
 BuildRequires: bison
 BuildRequires: gdbm-devel
 BuildRequires: gmp-devel
@@ -30,8 +29,8 @@ BuildRequires: readline-devel
 %description
 Parrot is a virtual machine designed to efficiently compile and execute 
 bytecode for interpreted languages. Parrot will be the target for the final 
-Perl 6 compiler, and is already usable as a backend for Pugs, as well as 
-variety of other languages
+Perl 6 compiler, and is already usable as a backend for the Rakudo Perl
+6 compiler, as well as a variety of other languages
 
 #--
 
@@ -81,7 +80,6 @@ Sources of %{name}.
 
 %prep
 %setup -q
-%patch0 -p0
 %{__perl} -pi -e 's,"lib/,"%{_lib}/, if (/CONST_STRING\(interp,/)' \
     src/library.c
 %{__perl} -pi -e "s,'/usr/lib','%{_libdir}',;s,runtime/lib/,runtime/%{_lib}/," \
@@ -98,9 +96,8 @@ Sources of %{name}.
     --cc="%{__cc}" \
     --parrot_is_shared \
     --lex=/usr/bin/flex \
-    --libs='-lcurses -lm -lrt'
+    --libs='-lcurses -lm -lrt -ldl -lpthread'
 
-    #--cxx=%{__cxx} \
 # the following Configure.pl flag makes the compile goes boom
     #--optimize="$RPM_OPT_FLAGS -maccumulate-outgoing-args" \
 %define _disable_ld_no_undefined 1
@@ -130,9 +127,8 @@ find $RPM_BUILD_ROOT%{_libdir} -type f \( -name '*.so' -o -name '*.so.*' \) \
 export LD_LIBRARY_PATH=$( pwd )/blib/lib
 #make test
 
-
 %files
-%doc ChangeLog CREDITS PBC_COMPAT PLATFORMS README
+%doc ChangeLog CREDITS PBC_COMPAT PLATFORMS README.pod
 %doc RESPONSIBLE_PARTIES TODO
 %exclude %{_bindir}/parrot_config
 %exclude %{_bindir}/pbc_*
@@ -142,7 +138,6 @@ export LD_LIBRARY_PATH=$( pwd )/blib/lib
 %doc docs examples
 
 %files -n %libname
-%defattr(-,root,root,-)
 %{_libdir}/parrot
 %{_libdir}/*.so.*
 
@@ -158,3 +153,4 @@ export LD_LIBRARY_PATH=$( pwd )/blib/lib
 
 %files -n %{name}-src
 /usr/src/parrot
+
