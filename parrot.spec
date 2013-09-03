@@ -1,8 +1,8 @@
 %define name    parrot
-%define version 4.0.0
-%define release 3
+%define version 5.7.0
+%define release 1
 
-%define libname        %mklibname %{name}
+%define libname        %mklibname %{name} %{version}
 %define libname_devel  %mklibname -d %{name} 
 
 %if %{_use_internal_dependency_generator}
@@ -18,20 +18,22 @@ Name:          %name
 Version:       %version
 Release:       %release
 
-Summary:       Parrot Virtual Machine
-License:       Artistic 2.0
-Group:         Development/Perl
-Url:           http://www.parrot.org/
-Source0:       ftp://ftp.parrot.org/pub/parrot/releases/stable/%{version}/%{name}-%{version}.tar.bz2
+Summary:	Parrot Virtual Machine
+License:	Artistic 2.0
+Group:		Development/Perl
+Url:		http://www.parrot.org/
+Source0:	ftp://ftp.parrot.org/pub/parrot/releases/devel/%{version}/%{name}-%{version}.tar.bz2
+Source100:	%{name}.rpmlintrc
 Patch0:		parrot-3.4.0-link.patch
-BuildRequires: bison
-BuildRequires: gdbm-devel
-BuildRequires: gmp-devel
-BuildRequires: flex
-BuildRequires: libicu-devel
-BuildRequires: ncurses-devel
-BuildRequires: perl-doc
-BuildRequires: readline-devel
+Patch1:		perldoc.patch
+BuildRequires:	bison
+BuildRequires:	gdbm-devel
+BuildRequires:	gmp-devel
+BuildRequires:	flex
+BuildRequires:	icu-devel
+BuildRequires:	ncurses-devel
+BuildRequires:	perl-doc
+BuildRequires:	readline-devel
 
 %description
 Parrot is a virtual machine designed to efficiently compile and execute 
@@ -87,15 +89,22 @@ Sources of %{name}.
 
 %prep
 %setup -q
-%patch0 -p0
+%patch1 -p1
+#% patch0 -p0
 %{__perl} -pi -e 's,"lib/,"%{_lib}/, if (/CONST_STRING\(interp,/)' \
     src/library.c
 %{__perl} -pi -e "s,'/usr/lib','%{_libdir}',;s,runtime/lib/,runtime/%{_lib}/," \
     tools/dev/install_files.pl \
     tools/dev/mk_manifest_and_skip.pl
 
+# fix pcre lib
+sed -i 's:libpcre.so.0:libpcre.so.1:' runtime/parrot/library/pcre.pir
+
+
 %build
 %{__perl} Configure.pl \
+    --ccflags="%optflags" \
+    --linkflags="%ldflags" \
     --prefix=%{_usr} \
     --libdir=%{_libdir} \
     --sysconfdir=%{_sysconfdir} \
@@ -104,33 +113,37 @@ Sources of %{name}.
     --cc="%{__cc}" \
     --parrot_is_shared \
     --lex=/usr/bin/flex \
-    --libs='-lcurses -lm -lrt'
+    --libs='-lcurses -lm -lrt -lpthread -ldl'
 
     #--cxx=%{__cxx} \
 # the following Configure.pl flag makes the compile goes boom
     #--optimize="$RPM_OPT_FLAGS -maccumulate-outgoing-args" \
 %define _disable_ld_no_undefined 1
-make LDFLAGS="%ldflags"
+%make LDFLAGS="%ldflags"
 export LD_LIBRARY_PATH=$( pwd )/blib/lib
-make parrot_utils LDFLAGS="%ldflags"
-make installable LDFLAGS="%ldflags"
+%make parrot_utils LDFLAGS="%ldflags"
+%make installable LDFLAGS="%ldflags"
 %make html
 
 
 %install
 export LD_LIBRARY_PATH=$( pwd )/blib/lib
-make install DESTDIR=$RPM_BUILD_ROOT
+make install DESTDIR=%{buildroot}
 
 # Drop the docs so rpm can pick them up itself.
-rm -rf $RPM_BUILD_ROOT/%{_docdir}/parrot
+rm -rf %{buildroot}/%{_docdir}/parrot
 
 # Force permissions on doc directories.
 find docs examples -type d -exec chmod 755 {} \;
 find docs examples -type f -exec chmod 644 {} \;
 
+#find %{buildroot}/%{_datadir} -name *.rb | xargs sed -i 's|#!perl|#!/usr/bin/perl|'
+
 # Force permissions on shared libs so they get stripped.
-find $RPM_BUILD_ROOT%{_libdir} -type f \( -name '*.so' -o -name '*.so.*' \) \
+find %{buildroot}%{_libdir} -type f \( -name '*.so' -o -name '*.so.*' \) \
     -exec chmod 755 {} \;
+
+sed -i 's|#!perl|#!/usr/bin/perl|' examples/benchmarks/*.pl
 
 %check
 export LD_LIBRARY_PATH=$( pwd )/blib/lib
@@ -138,7 +151,7 @@ export LD_LIBRARY_PATH=$( pwd )/blib/lib
 
 
 %files
-%doc ChangeLog CREDITS PBC_COMPAT PLATFORMS README
+%doc ChangeLog CREDITS PBC_COMPAT PLATFORMS
 %doc RESPONSIBLE_PARTIES TODO
 %exclude %{_bindir}/parrot_config
 %exclude %{_bindir}/pbc_*
@@ -146,9 +159,9 @@ export LD_LIBRARY_PATH=$( pwd )/blib/lib
 
 %files -n %{name}-doc
 %doc docs examples
+%{_datadir}/%{name}/%{version}/MANIFEST*
 
 %files -n %libname
-%defattr(-,root,root,-)
 %{_libdir}/parrot
 %{_libdir}/*.so.*
 
@@ -161,6 +174,7 @@ export LD_LIBRARY_PATH=$( pwd )/blib/lib
 %{_includedir}/*
 %{_libdir}/*.so
 %{_libdir}/*.a
+%{_mandir}/man1/*.*
 
 %files -n %{name}-src
 /usr/src/parrot

@@ -1,0 +1,35 @@
+diff --git a/config/auto/perldoc.pm b/config/auto/perldoc.pm
+index 65da3ae..b450c0e 100644
+--- a/config/auto/perldoc.pm
++++ b/config/auto/perldoc.pm
+@@ -38,7 +38,7 @@ sub runstep {
+ 
+     my $cmd = File::Spec->catfile($conf->data->get('scriptdirexp_provisional'), q{perldoc});
+     my ( $fh, $filename ) = tempfile( UNLINK => 1 );
+-    my $content = capture_output("$cmd -ud $filename perldoc") || undef;
++    my $content = capture_output("$cmd -u perldoc > $filename") || undef;
+ 
+     return 1 unless defined( $self->_initial_content_check($conf, $content) );
+ 
+@@ -67,7 +67,7 @@ E_NOTE
+         if ( $new_perldoc ) {
+             $TEMP_pod_build .= <<"END";
+ ops/$pod: ../src/ops/$ops
+-\t\$(PERLDOC) -ud ops/$pod ../src/ops/$ops
++\t\$(PERLDOC) -u ../src/ops/$ops > ops/$pod
+ \t\$(CHMOD) 0644 ops/$pod
+ \t\$(ADDGENERATED) "docs/\$\@" "[doc]"
+ 
+diff --git a/config/gen/makefiles/docs.in b/config/gen/makefiles/docs.in
+index 3e8c74b..63801a0 100644
+--- a/config/gen/makefiles/docs.in
++++ b/config/gen/makefiles/docs.in
+@@ -63,7 +63,7 @@ doc-prep:
+ 	$(TOUCH) doc-prep
+ 
+ packfile-c.pod: ../src/packfile/api.c
+-#IF(new_perldoc):	$(PERLDOC) -ud packfile-c.pod ../src/packfile/api.c
++#IF(new_perldoc):      $(PERLDOC) -u ../src/packfile/api.c > packfile-c.pod
+ #ELSE:	$(PERLDOC) -u ../src/packfile/api.c > packfile-c.pod
+ 	$(ADDGENERATED) "docs/$@" "[doc]"
+ 
