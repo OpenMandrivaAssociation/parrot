@@ -24,7 +24,6 @@ Group:		Development/Perl
 Url:		http://www.parrot.org/
 Source0:	ftp://ftp.parrot.org/pub/parrot/releases/devel/%{version}/%{name}-%{version}.tar.bz2
 Source100:	%{name}.rpmlintrc
-Patch0:		parrot-3.4.0-link.patch
 Patch1:		perldoc.patch
 BuildRequires:	bison
 BuildRequires:	gdbm-devel
