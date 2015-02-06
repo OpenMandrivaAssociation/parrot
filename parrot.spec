@@ -1,6 +1,6 @@
 %define name    parrot
 %define version 5.7.0
-%define release 1
+%define release 2
 
 %define libname        %mklibname %{name} %{version}
 %define libname_devel  %mklibname -d %{name} 
